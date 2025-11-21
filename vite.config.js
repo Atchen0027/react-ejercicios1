@@ -17,7 +17,7 @@ const htmlFiles = [
 
 export default defineConfig({
   plugins: [react()],
-  base: "/accen-ejercicios-react/",
+  base: "/react-ejercicios1/",
 
   build: {
     rollupOptions: {
