@@ -20,7 +20,6 @@ export default defineConfig({
   plugins: [react()],
   base: "/accen-ejercicios-react/",
 
-  // === PARTE CLAVE: Configuración de Múltiples Páginas (MPA) ===
   build: {
     rollupOptions: {
       input: htmlFiles.reduce((acc, file) => {
