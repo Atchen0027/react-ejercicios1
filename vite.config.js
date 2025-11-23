@@ -1,19 +1,19 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+// vite.config.js
+// ...
 import path from "path";
 
 const htmlFiles = [
   "index.html",
-  "ejercicio-busqueda.html",
-  "ejercicio-contador-clicks.html",
-  "ejercicio-contador-palabras.html",
-  "ejercicio-cambiar-color-fondo.html",
-  "ejercicio-calculadora.html",
-  "ejercicio-lista-dinamica.html",
-  "ejercicio-generador.html",
-  "ejercicio-temporizador.html",
-  "ejercicio-tareas-localstorage.html",
+  // ... tu lista de html
 ];
+
+// Crea la lista de archivos de entrada JS/TS, asumiendo que ahora están en src/
+const jsInputFiles = htmlFiles.reduce((acc, file) => {
+  const name = path.basename(file, ".html");
+  // La ruta debe apuntar a la nueva ubicación en src/
+  acc[name] = path.resolve(__dirname, "src", name + ".js");
+  return acc;
+}, {});
 
 export default defineConfig({
   plugins: [react()],
@@ -21,10 +21,14 @@ export default defineConfig({
 
   build: {
     rollupOptions: {
-      input: htmlFiles.reduce((acc, file) => {
-        acc[path.basename(file, ".html")] = path.resolve(__dirname, file);
-        return acc;
-      }, {}),
+      input: {
+        // Combina los archivos HTML (para la salida) y los archivos JS (como puntos de entrada)
+        ...jsInputFiles,
+        ...htmlFiles.reduce((acc, file) => {
+          acc[path.basename(file, ".html")] = path.resolve(__dirname, file);
+          return acc;
+        }, {}),
+      },
     },
   },
 });
